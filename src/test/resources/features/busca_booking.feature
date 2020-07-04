@@ -8,7 +8,7 @@ Funcionalidade: Realizar busca
 Contexto:
   Dado que estou acessando o site do booking
 
-Esquema do Cenário: Realizar login no sistema
+Esquema do Cenário: Realizar busca de hoteis com filtros
   E seleciono a cidade "<cidade>"
   E seleciono a quantidade de adultos <qtdAdultos>
   E seleciono a quantidade de crianças <qtdCrianças>
