@@ -1,5 +1,5 @@
 # language: pt
-
+@booking
 Funcionalidade: Realizar busca
   Como um usuário
   Eu quero realizar busca

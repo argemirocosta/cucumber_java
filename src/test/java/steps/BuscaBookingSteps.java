@@ -71,7 +71,7 @@ public class BuscaBookingSteps {
         Assert.assertTrue(driver.getPageSource().contains("acomodações encontradas"));
     }
 
-    @After
+    @After(value = "@booking")
     public void fecharBrowser() {
         driver.quit();
     }
