@@ -24,18 +24,18 @@ public class BuscaTrivagoSteps {
     }
 
     @Dado("escolho a cidade {string}")
-    public void escolhoACidade(String string) {
-        driver.findElement(By.id("querytext")).sendKeys(string);
+    public void escolhoACidade(String cidade) {
+        driver.findElement(By.id("querytext")).sendKeys(cidade);
     }
 
     @Dado("seleciono o tipo de quarto {string}")
-    public void selecionoOTipoDeQuarto(String string) {
+    public void selecionoOTipoDeQuarto(String tipoQuarto) {
 
         driver.findElement(By.xpath("//*[@id=\"js-fullscreen-hero\"]/div[1]/form/button[1]/span")).click();
 
-        if (string.equals("duplo")) {
+        if (tipoQuarto.equals("duplo")) {
             driver.findElement(By.xpath("//*[@id=\"js-fullscreen-hero\"]/div[1]/form/div[4]/div/div/ul/li[2]/button/div")).click();
-        } else if (string.equals("individual")) {
+        } else if (tipoQuarto.equals("individual")) {
             driver.findElement(By.xpath("//*[@id=\"js-fullscreen-hero\"]/div[1]/form/div[4]/div/div/ul/li[1]/button/div")).click();
         }
     }

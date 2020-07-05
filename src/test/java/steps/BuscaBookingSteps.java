@@ -4,10 +4,11 @@ import io.cucumber.java.After;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Então;
 import io.cucumber.java.pt.Quando;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import static org.junit.Assert.assertEquals;
 
 public class BuscaBookingSteps {
 
@@ -21,40 +22,57 @@ public class BuscaBookingSteps {
     }
 
     @Dado("seleciono a cidade {string}")
-    public void selecionoACidade(String string) {
-        driver.findElement(By.id("ss")).sendKeys(string);
+    public void selecionoACidade(String cidade) {
+        driver.findElement(By.id("ss")).sendKeys(cidade);
 
     }
 
     @Dado("seleciono a quantidade de adultos {int}")
-    public void selecionoAQuantidadeDeAdultos(Integer int1) {
+    public void selecionoAQuantidadeDeAdultos(Integer quantidadeAdultos) {
         driver.findElement(By.xpath("//*[@id=\"xp__guests__toggle\"]/span[2]/span[1]")).click();
-        if (int1 < 2) {
+        if (quantidadeAdultos < 2) {
             driver.findElement(By.xpath("//*[@id=\"xp__guests__inputs-container\"]/div/div/div[1]/div/div[2]/button[1]")).click();
         } else {
-            for (int i = 2; i < int1; i++) {
+            for (int i = 2; i < quantidadeAdultos; i++) {
                 driver.findElement(By.xpath("//*[@id=\"xp__guests__inputs-container\"]/div/div/div[1]/div/div[2]/button[2]")).click();
             }
         }
     }
 
     @Dado("seleciono a quantidade de crianças {int}")
-    public void selecionoAQuantidadeDeCrianças(Integer int1) {
-        driver.findElement(By.xpath("//*[@id=\"xp__guests__toggle\"]/span[2]/span[2]/span")).click();
+    public void selecionoAQuantidadeDeCrianças(Integer quantidadeCrianas) {
+        driver.findElement(By.xpath("//*[@id=\"xp__guests__toggle\"]/span[2]/span[3]/span")).click();
+        int quantidadeCriancasNaTela = Integer.parseInt(driver.findElement(By.xpath("//*[@id=\"xp__guests__inputs-container\"]/div/div/div[2]/div/div[2]/span[1]")).getText());
 
-        for (int i = 0; i < int1; i++) {
+        int total = (quantidadeCrianas - quantidadeCriancasNaTela);
+
+        if(quantidadeCrianas == 0 && quantidadeCriancasNaTela == 0){
+            return;
+        }
+        else if (quantidadeCrianas == 1 && quantidadeCriancasNaTela == 1){
+            return;
+        }
+        else if (quantidadeCrianas == 1 && quantidadeCriancasNaTela == 0){
             driver.findElement(By.xpath("//*[@id=\"xp__guests__inputs-container\"]/div/div/div[2]/div/div[2]/button[2]")).click();
+        }
+        else if (quantidadeCrianas == 0 && quantidadeCriancasNaTela == 1){
+            driver.findElement(By.xpath("//*[@id=\"xp__guests__inputs-container\"]/div/div/div[2]/div/div[2]/button[1]")).click();
+        }
+        else {
+            for (int i = 0; i < total; i++) {
+                driver.findElement(By.xpath("//*[@id=\"xp__guests__inputs-container\"]/div/div/div[2]/div/div[2]/button[2]")).click();
+            }
         }
 
     }
 
     @Dado("seleciono a quantidade de quartos {int}")
-    public void selecionoAQuantidadeDeQuartos(Integer int1) {
+    public void selecionoAQuantidadeDeQuartos(Integer quantidadeQuartos) {
         driver.findElement(By.xpath("//*[@id=\"xp__guests__toggle\"]/span[2]/span[3]/span")).click();
-        if (int1 < 2) {
+        if (quantidadeQuartos < 2) {
             driver.findElement(By.xpath("//*[@id=\"xp__guests__inputs-container\"]/div/div/div[3]/div/div[2]/button[1]")).click();
         } else {
-            for (int i = 1; i < int1; i++) {
+            for (int i = 1; i < quantidadeQuartos; i++) {
                 driver.findElement(By.xpath("//*[@id=\"xp__guests__inputs-container\"]/div/div/div[3]/div/div[2]/button[2]")).click();
             }
         }
@@ -68,7 +86,8 @@ public class BuscaBookingSteps {
 
     @Então("vejo as acomodações encontradas")
     public void vejoAsAcomodaçõesEncontradas() {
-        Assert.assertTrue(driver.getPageSource().contains("acomodações encontradas"));
+        String resultadosDaBusca = driver.findElement(By.xpath("//*[@id=\"breadcrumb\"]/ol/li[5]/a/div")).getText();
+        assertEquals("Resultados de busca", resultadosDaBusca);
     }
 
     @After(value = "@booking")

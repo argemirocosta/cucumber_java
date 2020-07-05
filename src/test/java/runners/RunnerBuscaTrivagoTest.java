@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         glue = "classpath:steps",
         tags = "@trivago",
         plugin = {"pretty", "html:target/report-html", "json:target/report.json"},
-        monochrome = true,
+        monochrome = false,
         snippets = CucumberOptions.SnippetType.CAMELCASE,
         dryRun = false,
         strict = true
